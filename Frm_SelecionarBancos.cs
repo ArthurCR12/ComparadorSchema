@@ -5,9 +5,8 @@ namespace ComparadorSchema
 {
     public partial class Frm_SelecionarBancos : Form
     {
-        string conString1 = string.Empty;
-        string conString2 = string.Empty;
-
+        string banco1 = string.Empty;
+        string banco2 = string.Empty;
 
         public Frm_SelecionarBancos()
         {
@@ -19,68 +18,129 @@ namespace ComparadorSchema
 
         }
 
+        private bool VerificarCampos(Control ctl)
+        {
+            foreach (Control control in ctl.Controls)
+            {
+                if (control is TextBox txt)
+                {
+                    if (string.IsNullOrWhiteSpace(txt.Text))
+                    {
+                        MsgHandler.Warning($@"O campo ""{txt.Tag}"" deve ser preenchido!");
+                        txt.Focus();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private string GerarStringConexao(Control ctl)
+        {
+            string server = "", port = "", userName = "", password = "";
+
+            if (VerificarCampos(ctl))
+            {
+                foreach (Control control in ctl.Controls)
+                {
+                    if (control is TextBox txt)
+                    {
+                        switch (txt.Tag?.ToString())
+                        {
+                            case "Server":
+                                server = txt.Text;
+                                break;
+                            case "Port":
+                                port = txt.Text;
+                                break;
+                            case "User Name":
+                                userName = txt.Text;
+                                break;
+                            case "Password":
+                                password = txt.Text;
+                                break;
+                        }
+                    }
+
+                }
+                return $"Server={server};Port={port};Uid={userName};Pwd={password};";
+            }
+            return string.Empty;
+        }
+
+        private void BuscarBancos(Control ctl)
+        {
+            if (VerificarCampos(ctl))
+            {
+                var strConn = GerarStringConexao(ctl);
+                try
+                {
+                    using var c = new MySqlConnection(strConn);
+                    var res = c.Query<string>("SHOW DATABASES;").ToList();
+
+                    if (ctl is Panel p)
+                    {
+                        if (p.Name == panel_Primeiro.Name)
+                        {
+                            list_Primeiro.DataSource = res;
+                            list_Primeiro.ClearSelected();
+                        }
+                        if (p.Name == panel_Segundo.Name)
+                        {
+                            list_Segundo.DataSource = res;
+                            list_Segundo.ClearSelected();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MsgHandler.Erro("Erro ao conectar: " + ex.Message);
+                }
+            }
+        }
+
         private void btn_TesteCon1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txt_ServerPrimeiro.Text))
-            {
-                MessageBox.Show("Informe um Server");
-                txt_ServerPrimeiro.Focus();
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(txt_PortPrimeiro.Text))
-            {
-                MessageBox.Show("Informe uma Porta");
-                txt_PortPrimeiro.Focus();
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(txt_UserNamePrimeiro.Text))
-            {
-                MessageBox.Show("Informe um User Name");
-                txt_UserNamePrimeiro.Focus();
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(txt_PasswordPrimeiro.Text))
-            {
-                MessageBox.Show("Informe uma Senha");
-                txt_PasswordPrimeiro.Focus();
-                return;
-            }
-
-            string server = txt_ServerPrimeiro.Text.Trim();
-            string port = txt_PortPrimeiro.Text.Trim();
-            string userName = txt_UserNamePrimeiro.Text.Trim();
-            string password = txt_PasswordPrimeiro.Text.Trim();
-            
-            conString1 = $"Server={server};Port={port};Uid={userName};Pwd={password};";
-
-            try
-            {
-                using var con = new MySqlConnection(conString1);
-                var result = con.Query<string>("SHOW DATABASES;").ToList();
-
-                list_Primeiro.DataSource = result;
-
-
-                list_Primeiro.Items.Clear();
-                foreach (var banco in result)
-                {
-                    list_Primeiro.Items.Add(new ListViewItem(banco));
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao conectar: " + ex.Message);
-            }
+            BuscarBancos(panel_Primeiro);
 
         }
 
         private void btn_TesteCon2_Click(object sender, EventArgs e)
         {
-
+            BuscarBancos(panel_Segundo);
         }
 
+        private void list_Primeiro_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (list_Primeiro.SelectedItem != null && list_Primeiro.SelectedIndex >= 0)
+            {
+                lbl_PrimeiroBanco.Text = $"1° Banco selecionado: {list_Primeiro.SelectedItem}";
+                banco1 = list_Primeiro.SelectedItem!.ToString()!;
+            }
+            else
+            {
+                lbl_PrimeiroBanco.Text = "Nenhum banco selecionado";
+                banco1 = string.Empty;
+            }
+        }
 
+        private void btn_Retornar_Click(object sender, EventArgs e)
+        {
+            //TODO retornar com os dados
+        }
 
+        private void list_Segundo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (list_Segundo.SelectedItem != null && list_Segundo.SelectedIndex >= 0)
+            {
+                lbl_SegundoBanco.Text = $"2° Banco selecionado: {list_Segundo.SelectedItem}";
+                banco1 = list_Segundo.SelectedItem!.ToString()!;
+            }
+            else
+            {
+                lbl_SegundoBanco.Text = "Nenhum banco selecionado";
+                banco2 = string.Empty;
+            }
+        }
     }
 }
