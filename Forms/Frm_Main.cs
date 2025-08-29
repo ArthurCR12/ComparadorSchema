@@ -1,7 +1,6 @@
 using ComparadorSchema.Classes;
 using Dapper;
 using MySql.Data.MySqlClient;
-using System.Threading.Tasks;
 
 namespace ComparadorSchema
 {
@@ -166,7 +165,7 @@ namespace ComparadorSchema
                 await BuscarSchemaTabelaAsync(banco, tabela, database);
                 await BuscarForeingKeysAsync(banco, tabela, database);
                 await BuscarDadosAsync(banco, tabela, database);
-                
+
             }
             catch (Exception ex)
             {
@@ -230,5 +229,24 @@ namespace ComparadorSchema
             }
 
         }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
