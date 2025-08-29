@@ -19,9 +19,36 @@ namespace ComparadorSchema
             InitializeComponent();
         }
 
-        private void Frm_SelecionarBancos_Load(object sender, EventArgs e)
+        private void btn_TesteCon1_Click(object sender, EventArgs e)
         {
+            BuscarBancos(panel_Primeiro);
+        }
+        private void btn_TesteCon2_Click(object sender, EventArgs e)
+        {
+            BuscarBancos(panel_Segundo);
+        }
+        private void btn_Retornar_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(banco1) || string.IsNullOrEmpty(banco2))
+            {
+                MsgHandler.Warning("Selecione os bancos antes de continuar!");
+                return;
+            }
+            if (banco1 == banco2)
+            {
+                MsgHandler.Warning("Os bancos selecionados são iguais!\nSelecione bancos diferentes.");
+                return;
+            }
 
+            StringConexaoBanco1 = GerarStringConexao(panel_Primeiro) + $"Database={banco1};";
+            StringConexaoBanco2 = GerarStringConexao(panel_Segundo) + $"Database={banco2};";
+
+            NomeBanco1 = banco1;
+            NomeBanco2 = banco2;
+            DadosSelecionados = true;
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private bool VerificarCampos(Control ctl)
@@ -40,7 +67,6 @@ namespace ComparadorSchema
             }
             return true;
         }
-
         private string GerarStringConexao(Control ctl)
         {
             string server = "", port = "", userName = "", password = "";
@@ -73,7 +99,6 @@ namespace ComparadorSchema
             }
             return string.Empty;
         }
-
         private void BuscarBancos(Control ctl)
         {
             if (VerificarCampos(ctl))
@@ -104,17 +129,7 @@ namespace ComparadorSchema
                 }
             }
         }
-
-        private void btn_TesteCon1_Click(object sender, EventArgs e)
-        {
-            BuscarBancos(panel_Primeiro);
-        }
-
-        private void btn_TesteCon2_Click(object sender, EventArgs e)
-        {
-            BuscarBancos(panel_Segundo);
-        }
-
+        
         private void list_Primeiro_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (list_Primeiro.SelectedItem != null && list_Primeiro.SelectedIndex >= 0)
@@ -127,32 +142,7 @@ namespace ComparadorSchema
                 lbl_PrimeiroBanco.Text = "Nenhum banco selecionado";
                 banco1 = string.Empty;
             }
-        }
-
-        private void btn_Retornar_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(banco1) || string.IsNullOrEmpty(banco2))
-            {
-                MsgHandler.Warning("Selecione os bancos antes de continuar!");
-                return;
-            }
-            if (banco1 == banco2)
-            {
-                MsgHandler.Warning("Os bancos selecionados são iguais!\nSelecione bancos diferentes.");
-                return;
-            }
-
-            StringConexaoBanco1 = GerarStringConexao(panel_Primeiro) + $"Database={banco1};";
-            StringConexaoBanco2 = GerarStringConexao(panel_Segundo) + $"Database={banco2};";
-
-            NomeBanco1 = banco1;
-            NomeBanco2 = banco2;
-            DadosSelecionados = true;
-
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
+        }        
         private void list_Segundo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (list_Segundo.SelectedItem != null && list_Segundo.SelectedIndex >= 0)
@@ -166,7 +156,6 @@ namespace ComparadorSchema
                 banco2 = string.Empty;
             }
         }
-
         private void Frm_SelecionarBancos_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.OK)

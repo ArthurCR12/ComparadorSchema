@@ -416,7 +416,6 @@
             StartPosition = FormStartPosition.CenterParent;
             Text = "Selecionar Bancos";
             FormClosing += Frm_SelecionarBancos_FormClosing;
-            Load += Frm_SelecionarBancos_Load;
             tableLayoutPanel1.ResumeLayout(false);
             panel_Segundo.ResumeLayout(false);
             panel_Segundo.PerformLayout();
