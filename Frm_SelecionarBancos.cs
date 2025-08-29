@@ -5,6 +5,12 @@ namespace ComparadorSchema
 {
     public partial class Frm_SelecionarBancos : Form
     {
+        public string StringConexaoBanco1 { get; private set; } = string.Empty;
+        public string StringConexaoBanco2 { get; private set; } = string.Empty;
+        public string NomeBanco1 { get; private set; } = string.Empty;
+        public string NomeBanco2 { get; private set; } = string.Empty;
+        public bool DadosSelecionados { get; private set; } = false;
+
         string banco1 = string.Empty;
         string banco2 = string.Empty;
 
@@ -102,7 +108,6 @@ namespace ComparadorSchema
         private void btn_TesteCon1_Click(object sender, EventArgs e)
         {
             BuscarBancos(panel_Primeiro);
-
         }
 
         private void btn_TesteCon2_Click(object sender, EventArgs e)
@@ -126,7 +131,26 @@ namespace ComparadorSchema
 
         private void btn_Retornar_Click(object sender, EventArgs e)
         {
-            //TODO retornar com os dados
+            if (string.IsNullOrEmpty(banco1) || string.IsNullOrEmpty(banco2))
+            {
+                MsgHandler.Warning("Selecione os bancos antes de continuar!");
+                return;
+            }
+            if (banco1 == banco2)
+            {
+                MsgHandler.Warning("Os bancos selecionados são iguais!\nSelecione bancos diferentes.");
+                return;
+            }
+
+            StringConexaoBanco1 = GerarStringConexao(panel_Primeiro) + $"Database={banco1};";
+            StringConexaoBanco2 = GerarStringConexao(panel_Segundo) + $"Database={banco2};";
+
+            NomeBanco1 = banco1;
+            NomeBanco2 = banco2;
+            DadosSelecionados = true;
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void list_Segundo_SelectedIndexChanged(object sender, EventArgs e)
@@ -134,12 +158,24 @@ namespace ComparadorSchema
             if (list_Segundo.SelectedItem != null && list_Segundo.SelectedIndex >= 0)
             {
                 lbl_SegundoBanco.Text = $"2° Banco selecionado: {list_Segundo.SelectedItem}";
-                banco1 = list_Segundo.SelectedItem!.ToString()!;
+                banco2 = list_Segundo.SelectedItem!.ToString()!;
             }
             else
             {
                 lbl_SegundoBanco.Text = "Nenhum banco selecionado";
                 banco2 = string.Empty;
+            }
+        }
+
+        private void Frm_SelecionarBancos_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.OK)
+                return;
+
+            if (!string.IsNullOrEmpty(banco1) || !string.IsNullOrEmpty(banco2))
+            {
+                var result = MsgHandler.Question("Deseja sair sem seleciona os bancos ?");
+                if (!result) e.Cancel = true;
             }
         }
     }

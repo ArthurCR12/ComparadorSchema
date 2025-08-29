@@ -137,6 +137,7 @@
             txt_ServerSegundo.TabIndex = 1;
             txt_ServerSegundo.TabOnEnter = true;
             txt_ServerSegundo.Tag = "Server";
+            txt_ServerSegundo.Text = "localhost";
             txt_ServerSegundo.ValidateAsDate = false;
             txt_ServerSegundo.WarningMessageDate = "Invalid date format.";
             // 
@@ -158,6 +159,7 @@
             txt_PasswordSegundo.TabIndex = 4;
             txt_PasswordSegundo.TabOnEnter = true;
             txt_PasswordSegundo.Tag = "Password";
+            txt_PasswordSegundo.Text = "acrtec1524";
             txt_PasswordSegundo.ValidateAsDate = false;
             txt_PasswordSegundo.WarningMessageDate = "Invalid date format.";
             // 
@@ -178,6 +180,7 @@
             txt_PortSegundo.TabIndex = 2;
             txt_PortSegundo.TabOnEnter = true;
             txt_PortSegundo.Tag = "Port";
+            txt_PortSegundo.Text = "3308";
             txt_PortSegundo.ValidateAsDate = false;
             txt_PortSegundo.WarningMessageDate = "Invalid date format.";
             // 
@@ -198,6 +201,7 @@
             txt_UserNameSegundo.TabIndex = 3;
             txt_UserNameSegundo.TabOnEnter = true;
             txt_UserNameSegundo.Tag = "User Name";
+            txt_UserNameSegundo.Text = "root";
             txt_UserNameSegundo.ValidateAsDate = false;
             txt_UserNameSegundo.WarningMessageDate = "Invalid date format.";
             // 
@@ -411,6 +415,7 @@
             Name = "Frm_SelecionarBancos";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Selecionar Bancos";
+            FormClosing += Frm_SelecionarBancos_FormClosing;
             Load += Frm_SelecionarBancos_Load;
             tableLayoutPanel1.ResumeLayout(false);
             panel_Segundo.ResumeLayout(false);

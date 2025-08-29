@@ -29,9 +29,11 @@
         private void InitializeComponent()
         {
             btn_IniciarComparacao = new Button();
-            lbl_Atual = new Label();
-            lbl_NovaVersao = new Label();
+            lbl_Banco1 = new Label();
+            lbl_Banco2 = new Label();
             btn_SelecionarBancos = new Button();
+            label1 = new Label();
+            label2 = new Label();
             SuspendLayout();
             // 
             // btn_IniciarComparacao
@@ -44,23 +46,25 @@
             btn_IniciarComparacao.UseVisualStyleBackColor = true;
             btn_IniciarComparacao.Click += btn_IniciarComparacao_Click;
             // 
-            // lbl_Atual
+            // lbl_Banco1
             // 
-            lbl_Atual.AutoSize = true;
-            lbl_Atual.Location = new Point(12, 107);
-            lbl_Atual.Name = "lbl_Atual";
-            lbl_Atual.Size = new Size(41, 15);
-            lbl_Atual.TabIndex = 4;
-            lbl_Atual.Text = "Atual: ";
+            lbl_Banco1.AutoSize = true;
+            lbl_Banco1.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
+            lbl_Banco1.Location = new Point(111, 108);
+            lbl_Banco1.Name = "lbl_Banco1";
+            lbl_Banco1.Size = new Size(15, 15);
+            lbl_Banco1.TabIndex = 4;
+            lbl_Banco1.Text = "- ";
             // 
-            // lbl_NovaVersao
+            // lbl_Banco2
             // 
-            lbl_NovaVersao.AutoSize = true;
-            lbl_NovaVersao.Location = new Point(12, 138);
-            lbl_NovaVersao.Name = "lbl_NovaVersao";
-            lbl_NovaVersao.Size = new Size(78, 15);
-            lbl_NovaVersao.TabIndex = 4;
-            lbl_NovaVersao.Text = "Nova Versão :";
+            lbl_Banco2.AutoSize = true;
+            lbl_Banco2.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
+            lbl_Banco2.Location = new Point(111, 143);
+            lbl_Banco2.Name = "lbl_Banco2";
+            lbl_Banco2.Size = new Size(12, 15);
+            lbl_Banco2.TabIndex = 4;
+            lbl_Banco2.Text = "-";
             // 
             // btn_SelecionarBancos
             // 
@@ -72,13 +76,33 @@
             btn_SelecionarBancos.UseVisualStyleBackColor = true;
             btn_SelecionarBancos.Click += btn_SelecionarBancos_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 108);
+            label1.Name = "label1";
+            label1.Size = new Size(91, 15);
+            label1.TabIndex = 5;
+            label1.Text = "Primeiro banco:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 143);
+            label2.Name = "label2";
+            label2.Size = new Size(93, 15);
+            label2.TabIndex = 5;
+            label2.Text = "Segundo banco:";
+            // 
             // Frm_Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(522, 520);
-            Controls.Add(lbl_NovaVersao);
-            Controls.Add(lbl_Atual);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(lbl_Banco2);
+            Controls.Add(lbl_Banco1);
             Controls.Add(btn_SelecionarBancos);
             Controls.Add(btn_IniciarComparacao);
             Name = "Frm_Main";
@@ -91,8 +115,10 @@
         #endregion
 
         private Button btn_IniciarComparacao;
-        private Label lbl_Atual;
-        private Label lbl_NovaVersao;
+        private Label lbl_Banco1;
+        private Label lbl_Banco2;
         private Button btn_SelecionarBancos;
+        private Label label1;
+        private Label label2;
     }
 }
