@@ -56,6 +56,8 @@
             dgv_DadosTblBd2 = new DataGridView();
             dgv_InfoFKBanco2 = new DataGridView();
             dgv_InfoTabelaBd2 = new DataGridView();
+            label1 = new Label();
+            btn_Comparar2Tbls = new Button();
             gbox_TabelasBanco1.SuspendLayout();
             gbox_TabelasBanco2.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -211,9 +213,9 @@
             label6.AutoSize = true;
             label6.Location = new Point(356, 13);
             label6.Name = "label6";
-            label6.Size = new Size(69, 15);
+            label6.Size = new Size(74, 15);
             label6.TabIndex = 5;
-            label6.Text = "Foreing Key";
+            label6.Text = "Foreing Keys";
             // 
             // label3
             // 
@@ -299,9 +301,9 @@
             label9.AutoSize = true;
             label9.Location = new Point(356, 13);
             label9.Name = "label9";
-            label9.Size = new Size(69, 15);
+            label9.Size = new Size(74, 15);
             label9.TabIndex = 5;
-            label9.Text = "Foreing Key";
+            label9.Text = "Foreing Keys";
             // 
             // label10
             // 
@@ -346,6 +348,27 @@
             dgv_InfoTabelaBd2.Size = new Size(340, 184);
             dgv_InfoTabelaBd2.TabIndex = 0;
             // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label1.Location = new Point(12, 47);
+            label1.Name = "label1";
+            label1.Size = new Size(184, 15);
+            label1.TabIndex = 5;
+            label1.Text = "Duplo click para ver informações";
+            // 
+            // btn_Comparar2Tbls
+            // 
+            btn_Comparar2Tbls.Location = new Point(12, 580);
+            btn_Comparar2Tbls.Name = "btn_Comparar2Tbls";
+            btn_Comparar2Tbls.Size = new Size(136, 40);
+            btn_Comparar2Tbls.TabIndex = 0;
+            btn_Comparar2Tbls.Text = "Comparar 2 Tabelas";
+            btn_Comparar2Tbls.UseVisualStyleBackColor = true;
+            btn_Comparar2Tbls.Click += btn_Comparar2Tbls_Click;
+            // 
             // Frm_Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -353,8 +376,10 @@
             ClientSize = new Size(1347, 783);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            Controls.Add(label1);
             Controls.Add(gbox_TabelasBanco2);
             Controls.Add(gbox_TabelasBanco1);
+            Controls.Add(btn_Comparar2Tbls);
             Controls.Add(btn_SelecionarBancos);
             Name = "Frm_Main";
             StartPosition = FormStartPosition.CenterScreen;
@@ -376,6 +401,7 @@
             ((System.ComponentModel.ISupportInitialize)dgv_InfoFKBanco2).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgv_InfoTabelaBd2).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -404,5 +430,7 @@
         private DataGridView dgv_DadosTblBd2;
         private DataGridView dgv_InfoFKBanco2;
         private DataGridView dgv_InfoTabelaBd2;
+        private Label label1;
+        private Button btn_Comparar2Tbls;
     }
 }

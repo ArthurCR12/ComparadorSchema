@@ -76,7 +76,6 @@ namespace ComparadorSchema
                 return false;
             }
         }
-
         private async Task BuscarTabelasAsync()
         {
             try
@@ -94,7 +93,6 @@ namespace ComparadorSchema
                 list_TabelasBanco2.DataSource = task2.Result.ToList();
                 list_TabelasBanco2.ClearSelected();
 
-                //DestacarDiferencasTabelas();
             }
             catch (Exception ex)
             {
@@ -230,21 +228,44 @@ namespace ComparadorSchema
 
         }
 
-        
+        private List<string> CompararSchemasDe2Tabelas(List<TabelaSchema> schema1, List<TabelaSchema> schema2, string tbl1, string tbl2)
+        {
+            var diferencas = new List<string>();
 
+            // Colunas que só tem no schema 1
+            var schemaColunas1 = schema1.Where(c => !schema2.Any(c2 => c2.Column_Name == c.Column_Name)).ToList();
+            foreach (var col in schemaColunas1)
+            {
+                diferencas.Add($@" A COLUNA ""{col.Column_Name}"" existe apenas em ""{nomeBanco1}:{tbl1}""");
+            }
+            // Colunas que só tem no schema 2
+            var colunasApenas2 = schema2.Where(c2 => !schema1.Any(c1 => c1.Column_Name == c2.Column_Name)).ToList();
+            foreach (var coluna in colunasApenas2)
+            {
+                diferencas.Add($@" A COLUNA '{coluna.Column_Name}' existe apenas em ""{nomeBanco2}:{tbl2}""");
+            }
 
+            return diferencas;
+        }
 
+        private async void btn_Comparar2Tbls_Click(object sender, EventArgs e)
+        {
+            if (list_TabelasBanco1.SelectedItem != null && list_TabelasBanco2.SelectedItem != null)
+            {
+                string tbl1 = list_TabelasBanco1.SelectedItem.ToString()!;
+                string tbl2 = list_TabelasBanco2.SelectedItem.ToString()!;
 
+                if (tbl1 != tbl2)
+                {
+                    if (!MsgHandler.Question($"O nome das tabelas não são iguais! Deseja continar ?\n\nTbl1: {tbl1} | tbl2: {tbl2}")) return;
+                }
+                
+                var schema1 = await BuscarSchemaTabelaAsync(1, tbl1, nomeBanco1);
+                var schema2 = await BuscarSchemaTabelaAsync(2, tbl2, nomeBanco2);
 
-
-
-
-
-
-
-
-
-
+                CompararSchemasDe2Tabelas(schema1, schema2, tbl1, tbl2);
+            }
+        }
 
 
 
