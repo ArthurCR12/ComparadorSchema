@@ -1,4 +1,4 @@
-﻿namespace ComparadorSchema;
+﻿namespace ComparadorSchema.Classes;
 
 public class TabelaSchema
 {

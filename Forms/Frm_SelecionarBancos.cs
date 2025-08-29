@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using ComparadorSchema.Classes;
+using Dapper;
 using MySql.Data.MySqlClient;
 
 namespace ComparadorSchema
