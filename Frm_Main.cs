@@ -4,7 +4,7 @@ using MySql.Data.MySqlClient;
 namespace ComparadorSchema
 {
     public partial class Frm_Main : Form
-    {        
+    {
         string nomeBanco1 = string.Empty;
         string nomeBanco2 = string.Empty;
 
@@ -50,7 +50,32 @@ namespace ComparadorSchema
                 MsgHandler.Erro("Erro ao buscar tabelas: " + ex.Message);
             }
         }
+        private void BuscarSchemaTabela(int bd, string tbl, string database)
+        {
+            try
+            {
+                string sql = $@"
+                    SELECT 
+                        COLUMN_NAME,
+                        DATA_TYPE,
+                        IS_NULLABLE,
+                        COLUMN_KEY,
+                        COLUMN_DEFAULT,
+                        EXTRA
+                    FROM INFORMATION_SCHEMA.COLUMNS
+                    WHERE TABLE_NAME = '{tbl}' AND TABLE_SCHEMA = '{database}';";
+                if (bd == 1)
+                {                    
+                    var res = connBanco1.Query<TabelaSchema>(sql);
+                    dgv_InfoTabelaBd1.DataSource = res;
+                }
+            }
+            catch (Exception ex)
+            {
 
+                throw;
+            }
+        }
 
         private void list_TabelasBanco1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -67,11 +92,19 @@ namespace ComparadorSchema
         {
             if (list_TabelasBanco2.SelectedItem != null && list_TabelasBanco2.SelectedIndex >= 0)
             {
-                lbl_TblSelectBanco2.Text = list_TabelasBanco2.SelectedItem.ToString();                
+                lbl_TblSelectBanco2.Text = list_TabelasBanco2.SelectedItem.ToString();
             }
             else
             {
-                lbl_TblSelectBanco2.Text = "";                
+                lbl_TblSelectBanco2.Text = "";
+            }
+        }
+
+        private void list_TabelasBanco1_DoubleClick(object sender, EventArgs e)
+        {
+            if (list_TabelasBanco1.SelectedItem != null)
+            {
+                BuscarSchemaTabela(1, list_TabelasBanco1.SelectedItem.ToString()!, nomeBanco1);
             }
         }
     }
